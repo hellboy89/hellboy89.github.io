@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cara ou Coroa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #resultado {
+            margin-top: 30px;
+            font-size: 40px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Jogo: Cara ou Coroa</h1>
+
+    <button onclick="jogar()">Jogar</button>
+
+    <div id="resultado"></div>
+
+    <script>
+        function jogar() {
+            const resultado = Math.random() < 0.5 ? "Cara" : "Coroa";
+            document.getElementById("resultado").innerText = resultado;
+        }
+    </script>
+
+</body>
+</html>
