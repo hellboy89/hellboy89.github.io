@@ -20,8 +20,8 @@
         }
 
         h1 {
-            font-size: 2em;
-            margin-bottom: 30px;
+            font-size: 2.8em;
+            margin-bottom: 40px;
             color: #ffffff;
         }
 
@@ -29,41 +29,42 @@
             background-color: #1f1f1f;
             color: #ffffff;
             border: 2px solid #333;
-            border-radius: 12px;
-            padding: 14px 28px;
-            font-size: 1.2em;
+            border-radius: 16px;
+            padding: 20px 40px;
+            font-size: 2em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        button:hover {
-            background-color: #333;
-            border-color: #555;
+        button:active {
+            background-color: #2e2e2e;
+            transform: scale(0.98);
         }
 
         #resultado {
-            margin-top: 40px;
-            font-size: 2.5em;
+            margin-top: 50px;
+            font-size: 3.5em;
             font-weight: bold;
             color: #03dac6;
         }
 
         @media (max-width: 600px) {
             h1 {
-                font-size: 1.5em;
+                font-size: 2.2em;
             }
 
             button {
-                padding: 12px 20px;
-                font-size: 1em;
+                padding: 18px 36px;
+                font-size: 1.8em;
             }
 
             #resultado {
-                font-size: 2em;
+                font-size: 3em;
             }
         }
     </style>
+
 
 </head>
 
@@ -83,25 +84,27 @@
 
             const resultadoEl = document.getElementById("resultado");
             resultadoEl.innerText = "Jogando...";
+            resultadoEl.style.color = "#FFD700"; // amarelo (padrão ouro)
 
-            // Delay para simular processo (efeito visual)
             setTimeout(() => {
                 let pontuacao = 0;
 
                 for (let i = 0; i < tentativas; i++) {
                     const val = array[i] % 100;
-                    // Quanto mais próximo de 0 → +peso para "Cara", quanto mais próximo de 99 → +peso para "Coroa"
                     if (val < 50) {
-                        pontuacao += (50 - val); // favorece Cara
+                        pontuacao += (50 - val);
                     } else {
-                        pontuacao -= (val - 49); // favorece Coroa
+                        pontuacao -= (val - 49);
                     }
                 }
 
                 const resultadoFinal = pontuacao >= 0 ? "Cara" : "Coroa";
-                resultadoEl.innerText = resultadoFinal;
-            }, 500); // meio segundo de suspense
+                resultadoEl.innerText = `${resultadoFinal}`;
+                resultadoEl.style.color = resultadoFinal === "Cara" ? "#00ff88" : "#ff6666";
+            }, 1000);
         }
+
+
 
 
     </script>
