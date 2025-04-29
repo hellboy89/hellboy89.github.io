@@ -1,29 +1,75 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <title>Cara ou Coroa</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
             text-align: center;
-            margin-top: 100px;
         }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 30px;
+            color: #ffffff;
+        }
+
         button {
-            padding: 10px 20px;
-            font-size: 10px;
-            cursor: pointer;
-        }
-        #resultado {
-            margin-top: 30px;
-            font-size: 10px;
+            background-color: #1f1f1f;
+            color: #ffffff;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 14px 28px;
+            font-size: 1.2em;
             font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #333;
+            border-color: #555;
+        }
+
+        #resultado {
+            margin-top: 40px;
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #03dac6;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            button {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+
+            #resultado {
+                font-size: 2em;
+            }
         }
     </style>
+
 </head>
+
 <body>
 
-    <h1>Jogo: Cara ou Coroa</h1>
+    <h1>Vai lá!</h1>
 
     <button onclick="jogar()">Jogar</button>
 
@@ -31,10 +77,35 @@
 
     <script>
         function jogar() {
-            const resultado = Math.random() < 0.5 ? "Cara" : "Coroa";
-            document.getElementById("resultado").innerText = resultado;
+            const tentativas = 10000;
+            const array = new Uint32Array(tentativas);
+            window.crypto.getRandomValues(array);
+
+            const resultadoEl = document.getElementById("resultado");
+            resultadoEl.innerText = "Jogando...";
+
+            // Delay para simular processo (efeito visual)
+            setTimeout(() => {
+                let pontuacao = 0;
+
+                for (let i = 0; i < tentativas; i++) {
+                    const val = array[i] % 100;
+                    // Quanto mais próximo de 0 → +peso para "Cara", quanto mais próximo de 99 → +peso para "Coroa"
+                    if (val < 50) {
+                        pontuacao += (50 - val); // favorece Cara
+                    } else {
+                        pontuacao -= (val - 49); // favorece Coroa
+                    }
+                }
+
+                const resultadoFinal = pontuacao >= 0 ? "Cara" : "Coroa";
+                resultadoEl.innerText = resultadoFinal;
+            }, 500); // meio segundo de suspense
         }
+
+
     </script>
 
 </body>
+
 </html>
