@@ -1,117 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Cara ou Coroa</title>
-
-    <style>
-        body {
-            background-color: #121212;
-            color: #e0e0e0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 3.5em;
-            /* título bem visível */
-            margin-bottom: 50px;
-            color: #ffffff;
-        }
-
-        button {
-            background-color: #5f5f5f;
-            color: #ffffff;
-            border: 2px solid #333;
-            border-radius: 16px;
-            padding: 22px 44px;
-            font-size: 2.5em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        button:active {
-            background-color: #2e2e2e;
-            transform: scale(0.98);
-        }
-
-        #resultado {
-            margin-top: 60px;
-            font-size: 5em;
-            /* resultado bem grande */
-            font-weight: bold;
-            color: #03dac6;
-        }
-
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 3em;
-            }
-
-            button {
-                padding: 20px 40px;
-                font-size: 2.2em;
-            }
-
-            #resultado {
-                font-size: 4.5em;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cara ou Coroa</title>
+  <style>
+    body{background:#121212;color:#e0e0e0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;padding:20px;text-align:center}
+    h1{font-size:3.5em;margin-bottom:50px;color:#fff}
+    button{background:#5f5f5f;color:#fff;border:2px solid #333;border-radius:16px;padding:22px 44px;font-size:2.5em;font-weight:bold;cursor:pointer;transition:all .2s ease}
+    button:active{background:#2e2e2e;transform:scale(.98)}
+    #resultado{margin-top:60px;font-size:5em;font-weight:bold;color:#03dac6}
+    @media (max-width:600px){
+      h1{font-size:3em}
+      button{padding:20px 40px;font-size:2.2em}
+      #resultado{font-size:4.5em}
+    }
+  </style>
 </head>
-
 <body>
+  <h1>Vai lá!</h1>
+  <button onclick="jogar()">Jogar</button>
+  <div id="resultado"></div>
 
-    <h1>Vai lá - TESTE!</h1>
+  <script>
+    function jogar(){
+      const resultadoEl = document.getElementById("resultado");
+      resultadoEl.innerText = "Jogando...";
+      resultadoEl.style.color = "#FFD700"; // amarelo
 
-    <button onclick="jogar()">Jogar</button>
+      setTimeout(() => {
+        const b = new Uint8Array(1);
+        crypto.getRandomValues(b);
+        const resultado = (b[0] & 1) ? "Cara" : "Coroa"; // 50/50 justo
 
-    <div id="resultado"></div>
-
-    <script>
-        function jogar() {
-            const tentativas = 10000;
-            const array = new Uint32Array(tentativas);
-            window.crypto.getRandomValues(array);
-
-            const resultadoEl = document.getElementById("resultado");
-            resultadoEl.innerText = "Jogando...";
-            resultadoEl.style.color = "#FFD700"; // amarelo (padrão ouro)
-
-            setTimeout(() => {
-                let pontuacao = 0;
-
-                for (let i = 0; i < tentativas; i++) {
-                    const val = array[i] % 100;
-                    if (val < 50) {
-                        pontuacao += (50 - val);
-                    } else {
-                        pontuacao -= (val - 49);
-                    }
-                }
-
-                const resultadoFinal = pontuacao >= 0 ? "Cara" : "Coroa";
-                resultadoEl.innerText = `${resultadoFinal}`;
-                resultadoEl.style.color = resultadoFinal === "Cara" ? "#00ff88" : "#ff6666";
-            }, 1000);
-        }
-
-
-
-
-    </script>
-
+        resultadoEl.innerText = resultado;
+        resultadoEl.style.color = resultado === "Cara" ? "#00ff88" : "#ff6666";
+      }, 600);
+    }
+  </script>
 </body>
-
 </html>
